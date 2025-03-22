@@ -1,0 +1,36 @@
+<div class="about-container">
+  <section class="hero">
+    <h1>About Carbon Fiber</h1>
+    <p class="subtitle">Revolutionizing the world of performance through carbon fiber innovation</p>
+  </section>
+
+  <section class="mission">
+    <mat-card>
+      <mat-card-content>
+        <h2>Our Mission</h2>
+        <p>
+          At Carbon Fiber, we're dedicated to pushing the boundaries of what's possible with advanced materials.
+          Our mission is to deliver exceptional carbon fiber products that enhance performance, reduce weight,
+          and elevate the aesthetic appeal of vehicles and lifestyle products.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <section class="history">
+    <h2>Our Journey</h2>
+    <div class="timeline">
+      @for (milestone of companyHistory; track milestone.year) {
+        <mat-card class="milestone">
+          <mat-card-header>
+            <mat-card-title>{{ milestone.year }}</mat-card-title>
+            <mat-card-subtitle>{{ milestone.title }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ milestone.description }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </section>
+</div>

@@ -1,0 +1,84 @@
+<div class="product-detail-container">
+  @if (loading) {
+    <div class="loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (error) {
+    <div class="error">
+      <mat-icon color="warn">error_outline</mat-icon>
+      <p>{{ error }}</p>
+    </div>
+  } @else if (product) {
+    <div class="product-detail">
+      <div class="product-image">
+        <img [src]="product.imageUrl" [alt]="product.name">
+      </div>
+      
+      <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <div class="price-rating">
+          <span class="price">${{ product.price.toFixed(2) }}</span>
+          <div class="rating">
+            <mat-icon>star</mat-icon>
+            <span>{{ product.rating }}</span>
+            <span class="reviews">({{ product.reviews }} reviews)</span>
+          </div>
+        </div>
+        
+        <div class="stock-status">
+          @if (product.inStock) {
+            <span class="in-stock">In Stock</span>
+          } @else {
+            <span class="out-of-stock">Out of Stock</span>
+          }
+        </div>
+        
+        <p class="description">{{ product.description }}</p>
+        
+        <mat-divider></mat-divider>
+        
+        <div class="specifications">
+          <h2>Specifications</h2>
+          <mat-list>
+            <mat-list-item>
+              <span class="label">Material:</span>
+              <span class="value">{{ product.specifications.material }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="label">Dimensions:</span>
+              <span class="value">{{ product.specifications.dimensions }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="label">Weight:</span>
+              <span class="value">{{ product.specifications.weight }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <span class="label">Compatibility:</span>
+              <span class="value">{{ product.specifications.compatibility.join(', ') }}</span>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        
+        <mat-divider></mat-divider>
+        
+        <div class="features">
+          <h2>Features</h2>
+          <ul>
+            @for (feature of product.features; track feature) {
+              <li>{{ feature }}</li>
+            }
+          </ul>
+        </div>
+        
+        <div class="actions">
+          <button mat-raised-button color="primary" [disabled]="!product.inStock">
+            Add to Cart
+          </button>
+          <button mat-stroked-button routerLink="/products">
+            Back to Products
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

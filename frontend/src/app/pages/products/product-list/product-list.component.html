@@ -1,0 +1,77 @@
+<div class="products-container">
+  <section class="filters">
+    <div class="search-bar">
+      <mat-form-field appearance="outline">
+        <mat-label>Search products</mat-label>
+        <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearch()" placeholder="Search by name or description">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    
+    <h2>Categories</h2>
+    <div class="category-chips">
+      <mat-chip-option
+        [selected]="selectedCategory === null"
+        (click)="selectCategory(null)"
+        color="primary"
+      >
+        All Products
+      </mat-chip-option>
+      @for (category of categories; track category) {
+        <mat-chip-option
+          [selected]="selectedCategory === category"
+          (click)="selectCategory(category)"
+          color="primary"
+        >
+          {{ category }}
+        </mat-chip-option>
+      }
+    </div>
+  </section>
+
+  <section class="products-grid">
+    @if (loading) {
+      <div class="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    } @else if (error) {
+      <div class="error">
+        <mat-icon color="warn">error_outline</mat-icon>
+        <p>{{ error }}</p>
+      </div>
+    } @else if (filteredProducts.length === 0) {
+      <div class="no-products">
+        <mat-icon>inventory_2</mat-icon>
+        <p>No products found matching your search</p>
+      </div>
+    } @else {
+      @for (product of filteredProducts; track product.id) {
+        <mat-card class="product-card">
+          <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
+          <mat-card-content>
+            <h3>{{ product.name }}</h3>
+            <p class="description">{{ product.description }}</p>
+            <div class="price-rating">
+              <span class="price">${{ product.price.toFixed(2) }}</span>
+              <div class="rating">
+                <mat-icon>star</mat-icon>
+                <span>{{ product.rating }}</span>
+                <span class="reviews">({{ product.reviews }})</span>
+              </div>
+            </div>
+            <div class="stock-status">
+              @if (product.inStock) {
+                <span class="in-stock">In Stock</span>
+              } @else {
+                <span class="out-of-stock">Out of Stock</span>
+              }
+            </div>
+            <button mat-raised-button color="primary" [routerLink]="['/products', product.id]">
+              View Details
+            </button>
+          </mat-card-content>
+        </mat-card>
+      }
+    }
+  </section>
+</div>

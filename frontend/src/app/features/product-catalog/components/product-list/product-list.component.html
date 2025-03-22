@@ -1,0 +1,24 @@
+<div class="product-list-container">
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading products...</p>
+    </div>
+  } @else if (error) {
+    <div class="error-container">
+      <p>{{ error }}</p>
+    </div>
+  } @else if (products.length === 0) {
+    <div class="empty-container">
+      <p>No products found.</p>
+    </div>
+  } @else {
+    <mat-grid-list cols="3" rowHeight="1:1" gutterSize="16">
+      @for (product of products; track product.id) {
+        <mat-grid-tile>
+          <app-product-card [product]="product"></app-product-card>
+        </mat-grid-tile>
+      }
+    </mat-grid-list>
+  }
+</div>
