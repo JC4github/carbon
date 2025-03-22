@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../services/product.service';
-import { Product } from '../models/product.interface';
+import { Product } from '../../../shared/models/product.model';
 
 @Component({
   selector: 'app-product-list',
@@ -42,11 +42,15 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    console.log('ProductListComponent constructed');
+  }
 
   ngOnInit() {
-    // Get category from route query params
+    console.log('ProductListComponent initialized');
+    // Get category from route query params, default to null for "All Products"
     this.route.queryParams.subscribe((params) => {
+      console.log('Route params:', params);
       this.selectedCategory = params['category'] || null;
       this.loadProducts();
     });
@@ -54,50 +58,63 @@ export class ProductListComponent implements OnInit {
     // Load categories
     this.productService.getCategories().subscribe({
       next: (categories) => {
+        console.log('Categories loaded:', categories);
         this.categories = categories;
       },
       error: (error) => {
-        this.error = 'Failed to load categories';
         console.error('Error loading categories:', error);
+        this.error = 'Failed to load categories';
       },
     });
   }
 
   loadProducts() {
+    console.log('Loading products, category:', this.selectedCategory);
     this.loading = true;
-    this.productService
-      .getProducts(this.selectedCategory || undefined)
-      .subscribe({
-        next: (products) => {
-          this.products = products;
-          this.filterProducts();
-          this.loading = false;
-        },
-        error: (error) => {
-          this.error = 'Failed to load products';
-          console.error('Error loading products:', error);
-          this.loading = false;
-        },
-      });
+    this.productService.getProducts().subscribe({
+      next: (products) => {
+        console.log('Products loaded:', products);
+        this.products = products;
+        this.filterProducts();
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+        this.error = 'Failed to load products';
+        this.loading = false;
+      },
+    });
   }
 
   selectCategory(category: string | null) {
+    console.log('Category selected:', category);
     this.selectedCategory = category;
-    this.loadProducts();
+    this.filterProducts();
   }
 
   filterProducts() {
-    if (!this.searchQuery.trim()) {
-      this.filteredProducts = this.products;
-      return;
+    console.log('Filtering products, search query:', this.searchQuery);
+    let filtered = this.products;
+
+    // Apply category filter
+    if (this.selectedCategory) {
+      filtered = filtered.filter(
+        (product) => product.category === this.selectedCategory
+      );
     }
 
-    const query = this.searchQuery.toLowerCase().trim();
-    this.filteredProducts = this.products.filter(
-      (product) =>
-        product.name.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query)
-    );
+    // Apply search filter
+    if (this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase().trim();
+      filtered = filtered.filter(
+        (product) =>
+          product.name.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query)
+      );
+    }
+
+    this.filteredProducts = filtered;
+    console.log('Filtered products:', this.filteredProducts);
   }
 
   onSearch() {

@@ -10,21 +10,23 @@
     
     <h2>Categories</h2>
     <div class="category-chips">
-      <mat-chip-option
-        [selected]="selectedCategory === null"
+      <mat-chip
+        [highlighted]="selectedCategory === null"
         (click)="selectCategory(null)"
-        color="primary"
+        [color]="selectedCategory === null ? 'primary' : undefined"
+        [class.selected]="selectedCategory === null"
       >
         All Products
-      </mat-chip-option>
+      </mat-chip>
       @for (category of categories; track category) {
-        <mat-chip-option
-          [selected]="selectedCategory === category"
+        <mat-chip
+          [highlighted]="selectedCategory === category"
           (click)="selectCategory(category)"
-          color="primary"
+          [color]="selectedCategory === category ? 'primary' : undefined"
+          [class.selected]="selectedCategory === category"
         >
           {{ category }}
-        </mat-chip-option>
+        </mat-chip>
       }
     </div>
   </section>
@@ -45,33 +47,33 @@
         <p>No products found matching your search</p>
       </div>
     } @else {
-      @for (product of filteredProducts; track product.id) {
-        <mat-card class="product-card">
-          <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
-          <mat-card-content>
+      <div *ngFor="let product of filteredProducts" class="product-card">
+        <a [routerLink]="['/products', product.id]" class="product-link">
+          <div class="product-image">
+            <img [src]="product.imageUrl" [alt]="product.name" />
+            <div class="product-overlay">
+              <button mat-raised-button color="primary" (click)="$event.stopPropagation()">
+                View Details
+              </button>
+            </div>
+          </div>
+          <div class="product-info">
             <h3>{{ product.name }}</h3>
             <p class="description">{{ product.description }}</p>
-            <div class="price-rating">
-              <span class="price">${{ product.price.toFixed(2) }}</span>
+            <div class="product-meta">
+              <span class="price">${{ product.price }}</span>
               <div class="rating">
                 <mat-icon>star</mat-icon>
                 <span>{{ product.rating }}</span>
-                <span class="reviews">({{ product.reviews }})</span>
+                <span class="reviews">({{ product.reviews }} reviews)</span>
               </div>
+              <span class="stock-status" [class.in-stock]="product.stockStatus === 'in_stock'">
+                {{ product.stockStatus === 'in_stock' ? 'In Stock' : 'Out of Stock' }}
+              </span>
             </div>
-            <div class="stock-status">
-              @if (product.inStock) {
-                <span class="in-stock">In Stock</span>
-              } @else {
-                <span class="out-of-stock">Out of Stock</span>
-              }
-            </div>
-            <button mat-raised-button color="primary" [routerLink]="['/products', product.id]">
-              View Details
-            </button>
-          </mat-card-content>
-        </mat-card>
-      }
+          </div>
+        </a>
+      </div>
     }
   </section>
 </div>

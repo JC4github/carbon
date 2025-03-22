@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Product } from '../../../shared/models/product.model';
+import { Product } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +13,7 @@ export class MockProductService {
       description:
         'High-quality carbon fiber hood with perfect fitment and UV protection.',
       price: 899.99,
-      imageUrl:
-        'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&auto=format&fit=crop&q=60',
+      imageUrl: 'assets/images/products/hood.jpg',
       category: 'Exterior',
       rating: 4.8,
       reviews: 124,
@@ -37,8 +36,7 @@ export class MockProductService {
       description:
         'Aerodynamic carbon fiber wing with adjustable angle settings.',
       price: 1299.99,
-      imageUrl:
-        'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&auto=format&fit=crop&q=60',
+      imageUrl: 'assets/images/products/wing.jpg',
       category: 'Aerodynamics',
       rating: 4.9,
       reviews: 89,
@@ -46,7 +44,7 @@ export class MockProductService {
       specifications: {
         Material: 'Carbon Fiber',
         Weight: '2.8 kg',
-        Finish: 'Gloss',
+        'Adjustment Range': '0-15 degrees',
       },
       features: [
         'Adjustable angle',
@@ -60,15 +58,14 @@ export class MockProductService {
       name: 'Carbon Fiber Interior Trim Kit',
       description: 'Complete interior trim kit with carbon fiber accents.',
       price: 599.99,
-      imageUrl:
-        'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&auto=format&fit=crop&q=60',
+      imageUrl: 'assets/images/products/interior-trim.jpg',
       category: 'Interior',
       rating: 4.7,
       reviews: 156,
       stockStatus: 'out_of_stock',
       specifications: {
         Material: 'Carbon Fiber',
-        Weight: '0.8 kg',
+        Pieces: '12',
         Finish: '3K Weave',
       },
       features: [
@@ -84,8 +81,7 @@ export class MockProductService {
       description:
         'Replacement mirror caps in carbon fiber with integrated indicators.',
       price: 299.99,
-      imageUrl:
-        'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&auto=format&fit=crop&q=60',
+      imageUrl: 'assets/images/products/mirror-caps.jpg',
       category: 'Exterior',
       rating: 4.6,
       reviews: 78,
@@ -108,8 +104,7 @@ export class MockProductService {
       description:
         'Weighted carbon fiber shift knob with custom engraving option.',
       price: 199.99,
-      imageUrl:
-        'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&auto=format&fit=crop&q=60',
+      imageUrl: 'assets/images/products/shift-knob.jpg',
       category: 'Interior',
       rating: 4.5,
       reviews: 92,
@@ -117,7 +112,7 @@ export class MockProductService {
       specifications: {
         Material: 'Carbon Fiber',
         Weight: '0.2 kg',
-        Finish: 'Matte',
+        'Thread Size': 'M12x1.25',
       },
       features: [
         'Weighted design',
